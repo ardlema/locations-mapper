@@ -2,7 +2,7 @@
 // See the LICENCE.txt file distributed with this work for additional
 // information regarding copyright ownership.
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
+// Licensed under the Apache License, Version 2.0 (the "License"),
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
@@ -26,17 +26,13 @@ class LocationsFileReaderSpec extends FunSpec {
       val directoryName = "./src/test/resources/dir1"
       val fileName1 = "points1.csv"
       val fileName2 = "points2.csv"
-      val point1Line1Info1 = "point1Line1Info1"
-      val point1Line1Info2 = "point1Line1Info2"
-      val point1Line2Info1 = "point1Line2Info1"
-      val point1Line2Info2 = "point1Line2Info2"
-      val point2Line1Info1 = "point2Line1Info1"
-      val point2Line1Info2 = "point2Line1Info2"
-      val point2Line2Info1 = "point2Line2Info1"
-      val point2Line2Info2 = "point2Line2Info2"
+      val trafficInfo1 = TrafficInfo("PM20152","2013-07-12 07:15:00","1065","9","48","M","73","N","4")
+      val trafficInfo2 = TrafficInfo("PM22901","2013-07-12 07:15:00","912","7","18","M","58","N","5")
+      val trafficInfo3 = TrafficInfo("PM22971","2013-07-12 07:15:00","1008","6","19","M","64","N","5")
+      val trafficInfo4 = TrafficInfo("90009","2013-07-12 07:15:00","16","6","6","C","0","N","5")
       val expectedPointList = List(
-        (fileName1, List((point1Line1Info1, point1Line1Info2), (point1Line2Info1, point1Line2Info2))),
-        (fileName2, List((point2Line1Info1, point2Line1Info2), (point2Line2Info1, point2Line2Info2))))
+        (fileName1, List(trafficInfo1, trafficInfo2)),
+        (fileName2, List(trafficInfo3, trafficInfo4)))
       val pointsList = LocationsFileReader.findPointsForFiles(directoryName)
 
       pointsList should contain theSameElementsAs(expectedPointList)

@@ -22,7 +22,7 @@ import scala.io.BufferedSource
 
 object LocationsFileReader {
 
-  def findPointsForFiles(directory: String): Array[(String, List[(String, String)])] = {
+  def findPointsForFiles(directory: String): Array[(String, List[TrafficInfo])] = {
     val filesWithinDirectory = new File(directory).listFiles
     for (fileWithinDirectory <- filesWithinDirectory;
          file: BufferedSource = io.Source.fromFile(fileWithinDirectory)
@@ -31,8 +31,18 @@ object LocationsFileReader {
 
   private def lines(strings: Iterator[String]) = {
     for (line <- strings;
-         elements = line.split(',')
-    ) yield (elements(0), elements(1))
+         elements = line.replace("\"","")split(';')
+    ) yield (
+      TrafficInfo(
+        elements(0),
+        elements(1),
+        elements(2),
+        elements(3),
+        elements(4),
+        elements(5),
+        elements(6),
+        elements(7),
+        elements(8)))
   }
 
   def findCoordinates(coordinatesFile: String): Map[String, (String, String)] = {
