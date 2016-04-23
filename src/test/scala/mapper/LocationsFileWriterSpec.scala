@@ -27,17 +27,15 @@ class LocationsFileWriterSpec extends FunSpec {
 
     it("should read a list of locations info and coordinates and write them to a file") {
       val fileName = "./src/test/resources/temp.txt"
-      val id1 = "id1"
-      val id2 = "id2"
-      val xCoord1 = "1234,45"
-      val xCoord2 = "6874,89"
-      val yCoord1 = "6789,45"
-      val yCoord2 = "4542,01"
-      val element1 = "78"
-      val element2 = "30"
-      val pointsAndCoordinatesList = List(
-        (id1, element1, xCoord1, yCoord1),
-        (id2, element2, xCoord2, yCoord2))
+      val coord1x = "678,89"
+      val coord1y = "458,89"
+      val coord2x = "123,45"
+      val coord2y = "111,99"
+      val trafficInfo1 = TrafficInfo("PM20152","2013-07-12 07:15:00","1065","9","48","M","73","N","4")
+      val trafficInfo2 = TrafficInfo("PM22901","2013-07-12 07:15:00","912","7","18","M","58","N","5")
+      val pointsAndCoordinatesList: List[(TrafficInfo, String, String)] = List(
+        (trafficInfo1, coord1x, coord1y),
+        (trafficInfo2, coord2x, coord2y))
 
       LocationsFileWriter.writeToFile(fileName, pointsAndCoordinatesList)
       val fileWritten = new File(fileName)
@@ -46,8 +44,8 @@ class LocationsFileWriterSpec extends FunSpec {
       lines.size should be(2)
       val firstLine = lines(0)
       val secondLine = lines(1)
-      firstLine should be(s"${id1},${element1},${xCoord1},${yCoord1}")
-      secondLine should be(s"${id2},${element2},${xCoord2},${yCoord2}")
+      firstLine should be(s"PM20152;2013-07-12 07:15:00;1065;9;48;M;73;N;4;$coord1x;$coord1y")
+      secondLine should be(s"PM22901;2013-07-12 07:15:00;912;7;18;M;58;N;5;$coord2x;$coord2y")
       fileWritten.delete()
     }
   }

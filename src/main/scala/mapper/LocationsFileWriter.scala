@@ -20,10 +20,10 @@ import java.io.{File, PrintWriter}
 
 object LocationsFileWriter {
 
-  def writeToFile(fileName: String, infoToBeWritten: List[(String, String, String, String)]): Unit = {
+  def writeToFile(fileName: String, infoToBeWritten: List[(TrafficInfo, String, String)]): Unit = {
     val writer = new PrintWriter(new File(fileName))
 
-    for (info <- infoToBeWritten) writer.write(s"${info._1},${info._2},${info._3},${info._4}\n")
+    for (info <- infoToBeWritten) writer.write(s"${info._1.toString};${info._2};${info._3}\n")
     writer.close()
   }
 }

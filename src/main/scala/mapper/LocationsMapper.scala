@@ -24,7 +24,12 @@ case class TrafficInfo(
   tipo: String,
   vmed: String,
   error: String,
-  periodoIntegracion: String)
+  periodoIntegracion: String) {
+
+  override def toString(): String = {
+    s"$identif;$fecha;$intensidad;$ocupacion;$carga;$tipo;$vmed;$error;$periodoIntegracion"
+  }
+}
 
 object LocationsMapper {
 
