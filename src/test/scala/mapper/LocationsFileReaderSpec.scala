@@ -45,6 +45,20 @@ class LocationsFileReaderSpec extends FunSpec {
       pointsList should contain theSameElementsAs(expectedPointList)
     }
   }
+
+  it("should read the file with locations ids and get the map") {
+    val coordinatesFile = "./src/test/resources/pointsidandcoordinates.txt"
+    val id1 = "id1"
+    val id2 = "id2"
+    val xCoord1 = "1234,78"
+    val yCoord1 = "3456,90"
+    val xCoord2 = "5678,90"
+    val yCoord2 = "4567,23"
+    val expectedMapCoordinates = Map((id1, (xCoord1, yCoord1)), (id2, (xCoord2, yCoord2)))
+    val mapCoordinates = LocationsFileReader.findCoordinates(coordinatesFile)
+
+    mapCoordinates should contain theSameElementsAs(expectedMapCoordinates)
+  }
 }
 
 object LocationsFileReader {
@@ -60,5 +74,13 @@ object LocationsFileReader {
     for (line <- strings;
       elements = line.split(',')
     ) yield (elements(0), elements(1))
+  }
+
+  def findCoordinates(coordinatesFile: String): Map[String, (String, String)] = {
+    val coordinateFile = io.Source.fromFile(coordinatesFile)
+    val lines = coordinateFile.getLines
+    val coordinates = for (line <- lines;
+        elements = line.split('-')) yield (elements(0), (elements(1), elements(2)))
+    coordinates.toMap
   }
 }
