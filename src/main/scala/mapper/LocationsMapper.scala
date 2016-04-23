@@ -15,19 +15,27 @@
 // limitations under the License.
 package mapper
 
+case class TrafficInfo(
+  identif: String,
+  fecha: String,
+  intensidad: String,
+  ocupacion: String,
+  carga: String,
+  tipo: String,
+  vmed: String,
+  error: String,
+  periodoIntegracion: String)
 
-object
-LocationsMapper {
+object LocationsMapper {
 
   def findCoordinates(
-                       pointsInfo: List[(String, String)],
-                       coordinatesMap: Map[String, (String, String)]): List[(String, String, String, String)] = {
+                       pointsInfo: List[TrafficInfo],
+                       coordinatesMap: Map[String, (String, String)]): List[(TrafficInfo, String, String)] = {
     for (pointInfo <- pointsInfo;
-         coordinates = coordinatesMap.get(pointInfo._1);
+         coordinates = coordinatesMap.get(pointInfo.identif);
          if coordinates.isDefined
     ) yield (
-      pointInfo._1,
-      pointInfo._2,
+      pointInfo,
       coordinates.get._1,
       coordinates.get._2)
   }

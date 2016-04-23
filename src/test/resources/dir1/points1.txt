@@ -1,2 +1,0 @@
-point1Line1Info1,point1Line1Info2
-point1Line2Info1,point1Line2Info2

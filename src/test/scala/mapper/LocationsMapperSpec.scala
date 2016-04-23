@@ -23,19 +23,19 @@ class LocationsMapperSpec extends FunSpec {
   describe("The locations mapper") {
 
     it("should find out the coordinates for existing ids") {
-      val id1 = "id1"
-      val id2 = "id2"
+      val id1 = "PM20152"
+      val id2 = "PM20153"
       val xCoord1 = "1234,45"
       val xCoord2 = "6874,89"
       val yCoord1 = "6789,45"
       val yCoord2 = "4542,01"
       val coordinatesMap = Map((id1, (xCoord1, yCoord1)), (id2, (xCoord2, yCoord2)))
-      val element1 = "78"
-      val element2 = "30"
-      val pointsInfo = List((id1, element1), (id2, element2))
+      val trafficInfo1 = TrafficInfo(id1,"2013-07-12 07:15:00","1065","9","48","M","73","N","4")
+      val trafficInfo2 = trafficInfo1.copy(identif = id2)
+      val pointsInfo = List(trafficInfo1, trafficInfo2)
       val expectedCoordinates = List(
-        (id1, element1, xCoord1, yCoord1),
-        (id2, element2, xCoord2, yCoord2))
+        (trafficInfo1, xCoord1, yCoord1),
+        (trafficInfo2, xCoord2, yCoord2))
       val coordinates = LocationsMapper.findCoordinates(pointsInfo, coordinatesMap)
 
       coordinates should contain theSameElementsAs(expectedCoordinates)
@@ -50,10 +50,10 @@ class LocationsMapperSpec extends FunSpec {
       val yCoord1 = "6789,45"
       val yCoord2 = "4542,01"
       val coordinatesMap = Map((id1, (xCoord1, yCoord1)), (id2, (xCoord2, yCoord2)))
-      val element1 = "78"
-      val element2 = "30"
-      val pointsInfo = List((id1, element1), (nonExistingId, element2))
-      val expectedCoordinates = List((id1, element1, xCoord1, yCoord1))
+      val trafficInfo1 = TrafficInfo(id1,"2013-07-12 07:15:00","1065","9","48","M","73","N","4")
+      val trafficInfo2 = trafficInfo1.copy(identif = nonExistingId)
+      val pointsInfo = List(trafficInfo1, trafficInfo2)
+      val expectedCoordinates = List((trafficInfo1, xCoord1, yCoord1))
       val coordinates = LocationsMapper.findCoordinates(pointsInfo, coordinatesMap)
 
       coordinates should contain theSameElementsAs(expectedCoordinates)

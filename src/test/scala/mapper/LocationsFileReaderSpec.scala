@@ -24,8 +24,8 @@ class LocationsFileReaderSpec extends FunSpec {
 
     it("should read a list of files within a directory and get the list of elements") {
       val directoryName = "./src/test/resources/dir1"
-      val fileName1 = "points1.txt"
-      val fileName2 = "points2.txt"
+      val fileName1 = "points1.csv"
+      val fileName2 = "points2.csv"
       val point1Line1Info1 = "point1Line1Info1"
       val point1Line1Info2 = "point1Line1Info2"
       val point1Line2Info1 = "point1Line2Info1"
