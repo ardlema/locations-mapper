@@ -52,13 +52,3 @@ class LocationsFileWriterSpec extends FunSpec {
     }
   }
 }
-
-object LocationsFileWriter {
-
-  def writeToFile(fileName: String, infoToBeWritten: List[(String, String, String, String)]): Unit = {
-    val writer = new PrintWriter(new File(fileName))
-
-    for (info <- infoToBeWritten) writer.write(s"${info._1},${info._2},${info._3},${info._4}\n")
-    writer.close()
-  }
-}
