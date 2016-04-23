@@ -7,11 +7,11 @@ class LocationsMapperSpec extends FunSpec {
 
     it("should find out the coordinates for an existing id") {
       val id1 = "id1"
-      val id2 = "id1"
+      val id2 = "id2"
       val xCoord1 = "1234,45"
       val xCoord2 = "6874,89"
       val yCoord1 = "6789,45"
-      val yCoord2 = "6789,45"
+      val yCoord2 = "4542,01"
       val coordinatesMap: Map[String, (String, String)] = Map((id1, (xCoord1, yCoord1)), (id2, (xCoord2, yCoord2)))
       val element1 = "78"
       val element2 = "30"
@@ -31,6 +31,10 @@ object LocationsMapper {
   def findCoordinates(
      pointsInfo: List[(String, String)],
      coordinatesMap: Map[String, (String, String)]): List[(String, String, String, String)] = {
-    List(("", "", "", ""))
+    for (pointInfo <- pointsInfo) yield (
+      pointInfo._1,
+      pointInfo._2,
+      coordinatesMap.get(pointInfo._1).get._1,
+      coordinatesMap.get(pointInfo._1).get._2)
   }
 }
