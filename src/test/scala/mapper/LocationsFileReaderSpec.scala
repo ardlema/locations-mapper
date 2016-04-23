@@ -15,9 +15,6 @@
 // limitations under the License.
 package mapper
 
-import java.io.File
-
-import scala.io.{BufferedSource, Source}
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
 
@@ -58,29 +55,5 @@ class LocationsFileReaderSpec extends FunSpec {
     val mapCoordinates = LocationsFileReader.findCoordinates(coordinatesFile)
 
     mapCoordinates should contain theSameElementsAs(expectedMapCoordinates)
-  }
-}
-
-object LocationsFileReader {
-
-  def findPointsForFiles(directory: String): Array[(String, List[(String, String)])] = {
-    val filesWithinDirectory = new File(directory).listFiles
-    for (fileWithinDirectory <- filesWithinDirectory;
-      file: BufferedSource = io.Source.fromFile(fileWithinDirectory)
-    ) yield (fileWithinDirectory.getName, lines(file.getLines).toList)
-  }
-
-  private def lines(strings: Iterator[String]) = {
-    for (line <- strings;
-      elements = line.split(',')
-    ) yield (elements(0), elements(1))
-  }
-
-  def findCoordinates(coordinatesFile: String): Map[String, (String, String)] = {
-    val coordinateFile = io.Source.fromFile(coordinatesFile)
-    val lines = coordinateFile.getLines
-    val coordinates = for (line <- lines;
-        elements = line.split('-')) yield (elements(0), (elements(1), elements(2)))
-    coordinates.toMap
   }
 }
