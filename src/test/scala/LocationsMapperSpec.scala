@@ -31,10 +31,12 @@ object LocationsMapper {
   def findCoordinates(
      pointsInfo: List[(String, String)],
      coordinatesMap: Map[String, (String, String)]): List[(String, String, String, String)] = {
-    for (pointInfo <- pointsInfo) yield (
+    for (pointInfo <- pointsInfo;
+         coordinates = coordinatesMap.get(pointInfo._1)
+    ) yield (
       pointInfo._1,
       pointInfo._2,
-      coordinatesMap.get(pointInfo._1).get._1,
-      coordinatesMap.get(pointInfo._1).get._2)
+      coordinates.get._1,
+      coordinates.get._2)
   }
 }
