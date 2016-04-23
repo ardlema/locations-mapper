@@ -1,3 +1,5 @@
+package mapper
+
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
 
@@ -41,21 +43,5 @@ class LocationsMapperSpec extends FunSpec {
 
       coordinates should contain theSameElementsAs(expectedCoordinates)
     }
-  }
-}
-
-object LocationsMapper {
-
-  def findCoordinates(
-     pointsInfo: List[(String, String)],
-     coordinatesMap: Map[String, (String, String)]): List[(String, String, String, String)] = {
-    for (pointInfo <- pointsInfo;
-         coordinates = coordinatesMap.get(pointInfo._1);
-         if coordinates.isDefined
-    ) yield (
-      pointInfo._1,
-      pointInfo._2,
-      coordinates.get._1,
-      coordinates.get._2)
   }
 }
