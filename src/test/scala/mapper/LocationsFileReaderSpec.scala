@@ -15,8 +15,9 @@
 // limitations under the License.
 package mapper
 
-import java.io.Serializable
+import java.io.File
 
+import scala.io.{BufferedSource, Source}
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
 
@@ -25,16 +26,20 @@ class LocationsFileReaderSpec extends FunSpec {
   describe("The locations file reader") {
 
     it("should read a list of files within a directory and get the list of elements") {
-      val directoryName = "/test/resources/dir1"
+      val directoryName = "./src/test/resources/dir1"
       val fileName1 = "points1.txt"
       val fileName2 = "points2.txt"
       val point1Line1Info1 = "point1Line1Info1"
-      val point2Line1Info1 = "point2Line1Info1"
       val point1Line1Info2 = "point1Line1Info2"
+      val point1Line2Info1 = "point1Line2Info1"
+      val point1Line2Info2 = "point1Line2Info2"
+      val point2Line1Info1 = "point2Line1Info1"
       val point2Line1Info2 = "point2Line1Info2"
+      val point2Line2Info1 = "point2Line2Info1"
+      val point2Line2Info2 = "point2Line2Info2"
       val expectedPointList = List(
-        (fileName1, (point1Line1Info1, point1Line1Info2)),
-        (fileName2, (point2Line1Info1, point2Line1Info2)))
+        (fileName1, List((point1Line1Info1, point1Line1Info2), (point1Line2Info1, point1Line2Info2))),
+        (fileName2, List((point2Line1Info1, point2Line1Info2), (point2Line2Info1, point2Line2Info2))))
       val pointsList = LocationsFileReader.findPointsForFiles(directoryName)
 
       pointsList should contain theSameElementsAs(expectedPointList)
@@ -44,7 +49,16 @@ class LocationsFileReaderSpec extends FunSpec {
 
 object LocationsFileReader {
 
-  def findPointsForFiles(directory: String): List[(String, (String, String))] = {
-    List(("", ("", "")))
+  def findPointsForFiles(directory: String): Array[(String, List[(String, String)])] = {
+    val filesWithinDirectory = new File(directory).listFiles
+    for (fileWithinDirectory <- filesWithinDirectory;
+      file: BufferedSource = io.Source.fromFile(fileWithinDirectory)
+    ) yield (fileWithinDirectory.getName, lines(file.getLines).toList)
+  }
+
+  private def lines(strings: Iterator[String]) = {
+    for (line <- strings;
+      elements = line.split(',')
+    ) yield (elements(0), elements(1))
   }
 }
