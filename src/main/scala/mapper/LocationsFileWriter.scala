@@ -20,7 +20,7 @@ import java.io.{File, PrintWriter}
 
 object LocationsFileWriter {
 
-  def writeToFile(fileName: String, infoToBeWritten: List[TraffinInfoPlusCoordinates]): Unit = {
+  def writeToFile(fileName: String, infoToBeWritten: Iterator[TrafficInfoPlusCoordinates]): Unit = {
     val writer = new PrintWriter(new File(fileName))
 
     for (info <- infoToBeWritten) writer.write(s"${info.toString}\n")

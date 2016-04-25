@@ -39,18 +39,18 @@ class LocationsFileWriterSpec extends FunSpec with BeforeAndAfterAll {
       val coordinates2 = Coordinates(coord2x, coord2y)
       val trafficInfo1 = TrafficInfo("PM20152","2013-07-12 07:15:00","1065","9","48","M","73","N","4")
       val trafficInfo2 = TrafficInfo("PM22901","2013-07-12 07:15:00","912","7","18","M","58","N","5")
-      val trafficInfoPlusCoordinates1 = TraffinInfoPlusCoordinates(trafficInfo1, coordinates1)
-      val trafficInfoPlusCoordinates2 = TraffinInfoPlusCoordinates(trafficInfo2, coordinates2)
+      val trafficInfoPlusCoordinates1 = TrafficInfoPlusCoordinates(trafficInfo1, coordinates1)
+      val trafficInfoPlusCoordinates2 = TrafficInfoPlusCoordinates(trafficInfo2, coordinates2)
 
-      val pointsAndCoordinatesList = List(trafficInfoPlusCoordinates1, trafficInfoPlusCoordinates2)
+      val pointsAndCoordinatesList = Iterator(trafficInfoPlusCoordinates1, trafficInfoPlusCoordinates2)
       LocationsFileWriter.writeToFile(fileName, pointsAndCoordinatesList)
       val src = io.Source.fromFile(fileWritten)
       val lines = src.getLines.toList
       lines.size should be(2)
       val firstLine = lines(0)
       val secondLine = lines(1)
-      firstLine should be(s"PM20152;2013-07-12 07:15:00;1065;9;48;M;73;N;4;$coord1x;$coord1y")
-      secondLine should be(s"PM22901;2013-07-12 07:15:00;912;7;18;M;58;N;5;$coord2x;$coord2y")
+      firstLine should be(s"""{"identif":"PM20152","fecha":{$$date: "2013-07-12T07:15:00Z"}, "intensidad": 1065, "ocupacion": 9, "carga": 48, "tipo": "M", "vmed": 73, "error": "N", "longitude": 678,89, "latitude": 458,89}""".stripMargin)
+      secondLine should be(s"""{"identif":"PM22901","fecha":{$$date: "2013-07-12T07:15:00Z"}, "intensidad": 912, "ocupacion": 7, "carga": 18, "tipo": "M", "vmed": 58, "error": "N", "longitude": 123,45, "latitude": 111,99}""".stripMargin)
     }
   }
 }
