@@ -18,7 +18,11 @@ package mapper
 object LocationsFinder {
 
   def main(args: Array[String]): Unit = {
-    println("hello "+args(0))
+    val idsAndCoordinatesMap = LocationsFileReader.findCoordinates(args(0))
+    val pointsForFiles = LocationsFileReader.findPointsForFiles(args(1))
+    for (pointForFile <- pointsForFiles) {
+      val locationsInfo = LocationsMapper.findCoordinates(pointForFile._2, idsAndCoordinatesMap)
+      LocationsFileWriter.writeToFile(args(2) + s"/${pointForFile._1}.csv", locationsInfo)
+    }
   }
-
 }

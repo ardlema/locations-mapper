@@ -31,17 +31,27 @@ case class TrafficInfo(
   }
 }
 
+case class Coordinates(xCoord: String, yCoord: String) {
+
+  override def toString(): String = {
+    s"$xCoord;$yCoord"
+  }
+}
+
+case class TraffinInfoPlusCoordinates(trafficInfo: TrafficInfo, coordinates: Coordinates) {
+  override def toString(): String = {
+    s"${trafficInfo.toString};${coordinates.toString}"
+  }
+}
+
 object LocationsMapper {
 
   def findCoordinates(
                        pointsInfo: List[TrafficInfo],
-                       coordinatesMap: Map[String, (String, String)]): List[(TrafficInfo, String, String)] = {
-    for (pointInfo <- pointsInfo;
-         coordinates = coordinatesMap.get(pointInfo.identif);
+                       coordinatesMap: Map[String, Coordinates]): List[TraffinInfoPlusCoordinates] = {
+    for (trafficInfo <- pointsInfo;
+         coordinates = coordinatesMap.get(trafficInfo.identif);
          if coordinates.isDefined
-    ) yield (
-      pointInfo,
-      coordinates.get._1,
-      coordinates.get._2)
+    ) yield (TraffinInfoPlusCoordinates(trafficInfo, coordinates.get))
   }
 }

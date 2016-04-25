@@ -47,7 +47,9 @@ class LocationsFileReaderSpec extends FunSpec {
     val yCoord1 = "3456,90"
     val xCoord2 = "5678,90"
     val yCoord2 = "4567,23"
-    val expectedMapCoordinates = Map((id1, (xCoord1, yCoord1)), (id2, (xCoord2, yCoord2)))
+    val coordinates1 = Coordinates(xCoord1, yCoord1)
+    val coordinates2 = Coordinates(xCoord2, yCoord2)
+    val expectedMapCoordinates = Map((id1, coordinates1), (id2, coordinates2))
     val mapCoordinates = LocationsFileReader.findCoordinates(coordinatesFile)
 
     mapCoordinates should contain theSameElementsAs(expectedMapCoordinates)

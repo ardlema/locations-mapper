@@ -45,11 +45,11 @@ object LocationsFileReader {
         elements(8)))
   }
 
-  def findCoordinates(coordinatesFile: String): Map[String, (String, String)] = {
+  def findCoordinates(coordinatesFile: String): Map[String, Coordinates] = {
     val coordinateFile = io.Source.fromFile(coordinatesFile)
     val lines = coordinateFile.getLines
     val coordinates = for (line <- lines;
-                           elements = line.split('-')) yield (elements(0), (elements(1), elements(2)))
+                           elements = line.split('-')) yield (elements(0), Coordinates(elements(1), elements(2)))
     coordinates.toMap
   }
 }

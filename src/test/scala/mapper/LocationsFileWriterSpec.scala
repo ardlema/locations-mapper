@@ -15,30 +15,35 @@
 // limitations under the License.
 package mapper
 
-import java.io.PrintWriter
 import java.io.File
 
-import org.scalatest.FunSpec
+import org.scalatest.{BeforeAndAfterAll, FunSpec}
 import org.scalatest.Matchers._
 
-class LocationsFileWriterSpec extends FunSpec {
+class LocationsFileWriterSpec extends FunSpec with BeforeAndAfterAll {
+  val fileName = "./src/test/resources/temp.txt"
+  val fileWritten = new File(fileName)
+
+  override def afterAll(): Unit = {
+    fileWritten.delete()
+  }
 
   describe("The locations file writer") {
 
     it("should read a list of locations info and coordinates and write them to a file") {
-      val fileName = "./src/test/resources/temp.txt"
       val coord1x = "678,89"
       val coord1y = "458,89"
       val coord2x = "123,45"
       val coord2y = "111,99"
+      val coordinates1 = Coordinates(coord1x, coord1y)
+      val coordinates2 = Coordinates(coord2x, coord2y)
       val trafficInfo1 = TrafficInfo("PM20152","2013-07-12 07:15:00","1065","9","48","M","73","N","4")
       val trafficInfo2 = TrafficInfo("PM22901","2013-07-12 07:15:00","912","7","18","M","58","N","5")
-      val pointsAndCoordinatesList: List[(TrafficInfo, String, String)] = List(
-        (trafficInfo1, coord1x, coord1y),
-        (trafficInfo2, coord2x, coord2y))
+      val trafficInfoPlusCoordinates1 = TraffinInfoPlusCoordinates(trafficInfo1, coordinates1)
+      val trafficInfoPlusCoordinates2 = TraffinInfoPlusCoordinates(trafficInfo2, coordinates2)
 
+      val pointsAndCoordinatesList = List(trafficInfoPlusCoordinates1, trafficInfoPlusCoordinates2)
       LocationsFileWriter.writeToFile(fileName, pointsAndCoordinatesList)
-      val fileWritten = new File(fileName)
       val src = io.Source.fromFile(fileWritten)
       val lines = src.getLines.toList
       lines.size should be(2)
@@ -46,7 +51,6 @@ class LocationsFileWriterSpec extends FunSpec {
       val secondLine = lines(1)
       firstLine should be(s"PM20152;2013-07-12 07:15:00;1065;9;48;M;73;N;4;$coord1x;$coord1y")
       secondLine should be(s"PM22901;2013-07-12 07:15:00;912;7;18;M;58;N;5;$coord2x;$coord2y")
-      fileWritten.delete()
     }
   }
 }
