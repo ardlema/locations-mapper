@@ -31,6 +31,8 @@ case class TrafficInfo(
   override def toString(): String = {
     s"$identif;$fecha;$intensidad;$ocupacion;$carga;$tipo;$vmed;$error;$periodoIntegracion"
   }
+
+  def mongoDate(): String = fecha.replace(" ","T") + "Z"
 }
 
 case class Coordinates(xCoord: String, yCoord: String) {
@@ -40,20 +42,18 @@ case class Coordinates(xCoord: String, yCoord: String) {
   }
 }
 
-case class TraffinInfoPlusCoordinates(trafficInfo: TrafficInfo, coordinates: Coordinates) {
+case class TrafficInfoPlusCoordinates(trafficInfo: TrafficInfo, coordinates: Coordinates) {
   override def toString(): String = {
-    s"${trafficInfo.toString};${coordinates.toString}"
+    s"""{"identif":"${trafficInfo.identif}","fecha":{$$date: "${trafficInfo.mongoDate}"}, "intensidad": ${trafficInfo.intensidad}, "ocupacion": ${trafficInfo.ocupacion}, "carga": ${trafficInfo.carga}, "tipo": "${trafficInfo.tipo}", "vmed": ${trafficInfo.vmed}, "error": "${trafficInfo.error}", "longitude": ${coordinates.xCoord}, "latitude": ${coordinates.yCoord}}"""
   }
 }
 
 object LocationsMapper extends LazyLogging {
 
   def findCoordinates(
-                       pointsInfo: List[TrafficInfo],
-                       coordinatesMap: Map[String, Coordinates]): List[TraffinInfoPlusCoordinates] = {
-    for (trafficInfo <- pointsInfo;
-         coordinates = coordinatesMap.get(trafficInfo.identif);
-         if coordinates.isDefined
-    ) yield (TraffinInfoPlusCoordinates(trafficInfo, coordinates.get))
+                       pointsInfo: Iterator[TrafficInfo],
+                       coordinatesMap: Map[String, Coordinates]): Iterator[TrafficInfoPlusCoordinates] = {
+    pointsInfo.map(pointInfo => TrafficInfoPlusCoordinates(pointInfo, coordinatesMap.get(pointInfo.identif).getOrElse
+    (Coordinates("",""))))
   }
 }
