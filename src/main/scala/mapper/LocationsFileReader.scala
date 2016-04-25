@@ -17,13 +17,17 @@ package mapper
 
 import java.io.File
 
+import com.typesafe.scalalogging.slf4j.LazyLogging
+
 import scala.io.BufferedSource
 
 
-object LocationsFileReader {
+object LocationsFileReader extends LazyLogging {
 
   def findPointsForFiles(directory: String): Array[(String, List[TrafficInfo])] = {
+    logger.debug("Let's find points for files")
     val filesWithinDirectory = new File(directory).listFiles
+    logger.debug("Number of files to be scan: "+filesWithinDirectory.size)
     for (fileWithinDirectory <- filesWithinDirectory;
          file: BufferedSource = io.Source.fromFile(fileWithinDirectory)
     ) yield (fileWithinDirectory.getName, lines(file.getLines).toList)
@@ -31,7 +35,7 @@ object LocationsFileReader {
 
   private def lines(strings: Iterator[String]) = {
     for (line <- strings;
-         elements = line.replace("\"","")split(';')
+         elements = line.replace("\"","").split(';')
     ) yield (
       TrafficInfo(
         elements(0),
@@ -46,10 +50,13 @@ object LocationsFileReader {
   }
 
   def findCoordinates(coordinatesFile: String): Map[String, Coordinates] = {
+    logger.debug("Let's find the coordinates....")
     val coordinateFile = io.Source.fromFile(coordinatesFile)
     val lines = coordinateFile.getLines
     val coordinates = for (line <- lines;
                            elements = line.split('-')) yield (elements(0), Coordinates(elements(1), elements(2)))
-    coordinates.toMap
+    val coordinatesMap = coordinates.toMap
+    logger.debug("Number of coordinates found: "+coordinatesMap.size)
+    coordinatesMap
   }
 }

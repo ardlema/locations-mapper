@@ -15,6 +15,8 @@
 // limitations under the License.
 package mapper
 
+import com.typesafe.scalalogging.slf4j.LazyLogging
+
 case class TrafficInfo(
   identif: String,
   fecha: String,
@@ -44,7 +46,7 @@ case class TraffinInfoPlusCoordinates(trafficInfo: TrafficInfo, coordinates: Coo
   }
 }
 
-object LocationsMapper {
+object LocationsMapper extends LazyLogging {
 
   def findCoordinates(
                        pointsInfo: List[TrafficInfo],

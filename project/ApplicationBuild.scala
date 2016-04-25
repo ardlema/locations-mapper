@@ -24,11 +24,11 @@ object ApplicationBuild extends Build {
     "-Ywarn-numeric-widen")
 
   val customJavaInRuntimeOptions = Seq(
-    "-Xmx512m"
+    "-Xmx4096m"
   )
 
   val customJavaInTestOptions = Seq(
-    "-Xmx512m"
+    "-Xmx4096m"
   )
 
   val customResolvers = Seq(
@@ -38,7 +38,9 @@ object ApplicationBuild extends Build {
   )
 
   val customLibraryDependencies = Seq(
-    "org.scalatest" %% "scalatest" % "2.2.4" % "test"
+    "org.scalatest" %% "scalatest" % "2.2.4" % "test",
+    "com.typesafe.scala-logging" % "scala-logging-slf4j_2.11" % "2.1.2",
+    "ch.qos.logback" %  "logback-classic" % "1.1.7"
   ).map(_.exclude(
     "org.slf4j", "slf4j-log4j12"
   ))

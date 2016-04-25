@@ -15,14 +15,19 @@
 // limitations under the License.
 package mapper
 
-object LocationsFinder {
+import com.typesafe.scalalogging.slf4j.LazyLogging
+
+object LocationsFinder extends LazyLogging {
 
   def main(args: Array[String]): Unit = {
+    logger.debug("Let's run this shit!!!")
     val idsAndCoordinatesMap = LocationsFileReader.findCoordinates(args(0))
     val pointsForFiles = LocationsFileReader.findPointsForFiles(args(1))
+    logger.debug("Let's find the coordinates for each file...")
     for (pointForFile <- pointsForFiles) {
+      logger.debug(s"Let's find the coordinates for the file: ${pointForFile._1}")
       val locationsInfo = LocationsMapper.findCoordinates(pointForFile._2, idsAndCoordinatesMap)
-      LocationsFileWriter.writeToFile(args(2) + s"/${pointForFile._1}.csv", locationsInfo)
+      LocationsFileWriter.writeToFile(args(2) + s"/${pointForFile._1}-output.csv", locationsInfo)
     }
   }
 }
