@@ -53,7 +53,10 @@ object LocationsMapper extends LazyLogging {
   def findCoordinates(
                        pointsInfo: Iterator[TrafficInfo],
                        coordinatesMap: Map[String, Coordinates]): Iterator[TrafficInfoPlusCoordinates] = {
-    pointsInfo.map(pointInfo => TrafficInfoPlusCoordinates(pointInfo, coordinatesMap.get(pointInfo.identif).getOrElse
-    (Coordinates("",""))))
+    pointsInfo.map(pointInfo => {
+      if (!coordinatesMap.get(pointInfo.identif).isDefined) logger.error(s"There is no coordinates for ===> ${pointInfo.identif}")
+      //TODO: Instead of using empty Coordinates it should be an Option
+      TrafficInfoPlusCoordinates(pointInfo, coordinatesMap.get(pointInfo.identif).getOrElse(Coordinates("","")))
+    }).filter(pointInfo => !pointInfo.coordinates.xCoord.isEmpty)
   }
 }
