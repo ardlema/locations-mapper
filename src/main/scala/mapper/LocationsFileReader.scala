@@ -24,13 +24,13 @@ import scala.io.BufferedSource
 
 object LocationsFileReader extends LazyLogging {
 
-  def findPointsForFiles(directory: String): Array[(String, Iterator[TrafficInfo])] = {
+  def findPointsForFiles(directory: String): List[(String, Iterator[TrafficInfo])] = {
     logger.debug("Let's find points for files")
     val filesWithinDirectory = new File(directory).listFiles
     logger.debug("Number of files to be scan: "+filesWithinDirectory.size)
-    for (fileWithinDirectory <- filesWithinDirectory;
-         file: BufferedSource = io.Source.fromFile(fileWithinDirectory)
-    ) yield (fileWithinDirectory.getName, lines(file.getLines))
+    (for (fileWithinDirectory <- filesWithinDirectory;
+          file: BufferedSource = io.Source.fromFile(fileWithinDirectory)
+    ) yield (fileWithinDirectory.getName, lines(file.getLines))).toList
   }
 
   private def lines(strings: Iterator[String]) = {

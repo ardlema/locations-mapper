@@ -30,14 +30,14 @@ class LocationsFileReaderSpec extends FunSpec {
       val trafficInfo2 = TrafficInfo("PM22901","2013-07-12 07:15:00","912","7","18","M","58","N","5")
       val trafficInfo3 = TrafficInfo("PM22971","2013-07-12 07:15:00","1008","6","19","M","64","N","5")
       val trafficInfo4 = TrafficInfo("90009","2013-07-12 07:15:00","16","6","6","C","0","N","5")
-      val expectedFirstElement = (fileName1, List(trafficInfo1, trafficInfo2))
-      val expectedSecondElement = (fileName2, List(trafficInfo3, trafficInfo4))
       val pointsList = LocationsFileReader.findPointsForFiles(directoryName)
+      val expectedFileNameList = Seq(fileName1, fileName2)
+      val expectedTrafficInfoList = Seq(trafficInfo1, trafficInfo2, trafficInfo3, trafficInfo4)
+      val pointsListFileNames = pointsList.map(_._1)
+      val pointsListTrafficInfoAsList = pointsList.flatMap(_._2.toList)
 
-      expectedFirstElement._1 should equal(fileName1)
-      expectedFirstElement._2 should contain theSameElementsAs(pointsList(1)._2.toList)
-      expectedSecondElement._1 should equal(fileName2)
-      expectedSecondElement._2 should contain theSameElementsAs(pointsList(0)._2.toList)
+      pointsListFileNames should contain theSameElementsAs(expectedFileNameList)
+      pointsListTrafficInfoAsList should contain theSameElementsAs(expectedTrafficInfoList)
     }
   }
 
