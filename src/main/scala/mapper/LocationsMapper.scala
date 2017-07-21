@@ -17,19 +17,19 @@ package mapper
 
 import com.typesafe.scalalogging.slf4j.LazyLogging
 
-case class TrafficInfo(
-  identif: String,
+case class TrafficInfo(idelem: String,
   fecha: String,
+  identif: String,
+  tipoElem: String,
   intensidad: String,
   ocupacion: String,
   carga: String,
-  tipo: String,
   vmed: String,
   error: String,
   periodoIntegracion: String) {
 
   override def toString(): String = {
-    s"$identif;$fecha;$intensidad;$ocupacion;$carga;$tipo;$vmed;$error;$periodoIntegracion"
+    s"$idelem;$fecha;$identif;$tipoElem,$intensidad;$ocupacion;$carga;$vmed;$error;$periodoIntegracion"
   }
 
   def mongoDate(): String = fecha.replace(" ","T") + "Z"
@@ -43,8 +43,11 @@ case class Coordinates(xCoord: String, yCoord: String) {
 }
 
 case class TrafficInfoPlusCoordinates(trafficInfo: TrafficInfo, coordinates: Coordinates) {
-  override def toString(): String = {
+/*  override def toString(): String = {
     s"""{"identif":"${trafficInfo.identif}","fecha":{$$date: "${trafficInfo.mongoDate}"}, "intensidad": ${trafficInfo.intensidad}, "ocupacion": ${trafficInfo.ocupacion}, "carga": ${trafficInfo.carga}, "tipo": "${trafficInfo.tipo}", "vmed": ${trafficInfo.vmed}, "error": "${trafficInfo.error}", "longitude": ${coordinates.xCoord}, "latitude": ${coordinates.yCoord}}"""
+  }*/
+  override def toString(): String = {
+    ""
   }
 }
 

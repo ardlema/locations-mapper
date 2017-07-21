@@ -46,7 +46,8 @@ object LocationsFileReader extends LazyLogging {
         elements(5),
         elements(6),
         elements(7),
-        elements(8)))
+        elements(8),
+        elements(9)))
   }
 
   def findCoordinates(coordinatesFile: String): Map[String, Coordinates] = {

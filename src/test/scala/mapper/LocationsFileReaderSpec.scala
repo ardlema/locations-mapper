@@ -26,10 +26,10 @@ class LocationsFileReaderSpec extends FunSpec {
       val directoryName = "./src/test/resources/dir1"
       val fileName1 = "points1.csv"
       val fileName2 = "points2.csv"
-      val trafficInfo1 = TrafficInfo("PM20152","2013-07-12 07:15:00","1065","9","48","M","73","N","4")
-      val trafficInfo2 = TrafficInfo("PM22901","2013-07-12 07:15:00","912","7","18","M","58","N","5")
-      val trafficInfo3 = TrafficInfo("PM22971","2013-07-12 07:15:00","1008","6","19","M","64","N","5")
-      val trafficInfo4 = TrafficInfo("90009","2013-07-12 07:15:00","16","6","6","C","0","N","5")
+      val trafficInfo1 = TrafficInfo("1001", "2017-06-01 00:00:00", "05FT10PM01", "PUNTOS MEDIDA M-30", "576", "4", "0", "73", "N", "5")
+      val trafficInfo2 = TrafficInfo("1002", "2017-06-01 00:00:00", "05FT37PM01", "PUNTOS MEDIDA M-30", "888", "4", "0", "70", "N", "5")
+      val trafficInfo3 = TrafficInfo("1003", "2017-06-01 00:00:00", "05FT66PM01", "PUNTOS MEDIDA M-30", "1008", "4", "0", "75", "N", "5")
+      val trafficInfo4 = TrafficInfo("1006", "2017-06-01 00:00:00", "04FT74PM01", "PUNTOS MEDIDA M-30", "888", "3", "0", "67", "N", "5")
       val pointsList = LocationsFileReader.findPointsForFiles(directoryName)
       val expectedFileNameList = Seq(fileName1, fileName2)
       val expectedTrafficInfoList = Seq(trafficInfo1, trafficInfo2, trafficInfo3, trafficInfo4)

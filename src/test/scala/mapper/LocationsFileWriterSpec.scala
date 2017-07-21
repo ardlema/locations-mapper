@@ -37,8 +37,8 @@ class LocationsFileWriterSpec extends FunSpec with BeforeAndAfterAll {
       val coord2y = "111,99"
       val coordinates1 = Coordinates(coord1x, coord1y)
       val coordinates2 = Coordinates(coord2x, coord2y)
-      val trafficInfo1 = TrafficInfo("PM20152","2013-07-12 07:15:00","1065","9","48","M","73","N","4")
-      val trafficInfo2 = TrafficInfo("PM22901","2013-07-12 07:15:00","912","7","18","M","58","N","5")
+      val trafficInfo1 = TrafficInfo("PM20152", "2013-07-12 07:15:00", "1065", "9", "48", "M", "73", "N", "4", "5")
+      val trafficInfo2 = TrafficInfo("PM22901", "2013-07-12 07:15:00", "912", "7", "18", "M", "58", "N", "5", "3")
       val trafficInfoPlusCoordinates1 = TrafficInfoPlusCoordinates(trafficInfo1, coordinates1)
       val trafficInfoPlusCoordinates2 = TrafficInfoPlusCoordinates(trafficInfo2, coordinates2)
 
