@@ -30,7 +30,7 @@ object LocationsFileReader extends LazyLogging {
     logger.debug("Number of files to be scan: "+filesWithinDirectory.size)
     (for (fileWithinDirectory <- filesWithinDirectory;
           file: BufferedSource = io.Source.fromFile(fileWithinDirectory)
-    ) yield (fileWithinDirectory.getName, lines(file.getLines))).toList
+    ) yield (fileWithinDirectory.getName, lines(file.getLines.drop(1)))).toList
   }
 
   private def lines(strings: Iterator[String]) = {
