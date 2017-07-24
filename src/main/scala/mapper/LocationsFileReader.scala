@@ -30,12 +30,12 @@ object LocationsFileReader extends LazyLogging {
     logger.debug("Number of files to be scan: "+filesWithinDirectory.size)
     (for (fileWithinDirectory <- filesWithinDirectory;
           file: BufferedSource = io.Source.fromFile(fileWithinDirectory)
-    ) yield (fileWithinDirectory.getName, lines(file.getLines.drop(1)))).toList
+    ) yield (fileWithinDirectory.getName, lines(getLinesWithoutHeader(file)))).toList
   }
 
   private def lines(strings: Iterator[String]) = {
     for (line <- strings;
-         elements = line.replace("\"","").split(';')
+         elements = replaceQuotesAndSplitByColon(line)
     ) yield (
       TrafficInfo(
         elements(0),
@@ -53,11 +53,14 @@ object LocationsFileReader extends LazyLogging {
   def findCoordinates(coordinatesFile: String): Map[String, Coordinates] = {
     logger.debug("Let's find the coordinates....")
     val coordinateFile = io.Source.fromFile(coordinatesFile)
-    val lines = coordinateFile.getLines
-    val coordinates = for (line <- lines;
-                           elements = line.split(';')) yield (elements(0), Coordinates(elements(1), elements(2)))
+    val coordinates = for (line <- getLinesWithoutHeader(coordinateFile);
+                           elements = replaceQuotesAndSplitByColon(line)) yield (elements(0), Coordinates(elements(3), elements(4)))
     val coordinatesMap = coordinates.toMap
     logger.debug("Number of coordinates found: "+coordinatesMap.size)
     coordinatesMap
   }
+
+  private def getLinesWithoutHeader(source: BufferedSource) = source.getLines().drop(1)
+
+  private def replaceQuotesAndSplitByColon(lineWithQuotes: String) = lineWithQuotes.replace("\"","").split(';')
 }
