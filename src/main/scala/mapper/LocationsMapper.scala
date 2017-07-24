@@ -43,12 +43,10 @@ case class Coordinates(xCoord: String, yCoord: String) {
 }
 
 case class TrafficInfoPlusCoordinates(trafficInfo: TrafficInfo, coordinates: Coordinates) {
-/*  override def toString(): String = {
-    s"""{"identif":"${trafficInfo.identif}","fecha":{$$date: "${trafficInfo.mongoDate}"}, "intensidad": ${trafficInfo.intensidad}, "ocupacion": ${trafficInfo.ocupacion}, "carga": ${trafficInfo.carga}, "tipo": "${trafficInfo.tipo}", "vmed": ${trafficInfo.vmed}, "error": "${trafficInfo.error}", "longitude": ${coordinates.xCoord}, "latitude": ${coordinates.yCoord}}"""
-  }*/
   override def toString(): String = {
-    ""
+    s"""{"idelem":"${trafficInfo.idelem}","fecha":"${trafficInfo.fecha}", "identif": "${trafficInfo.identif}", "tipoElem": "${trafficInfo.tipoElem}", "intensidad": "${trafficInfo.intensidad}", "ocupacion": "${trafficInfo.ocupacion}", "carga": "${trafficInfo.carga}", "vmed": "${trafficInfo.vmed}", "error": "${trafficInfo.error}", "periodoIntegracion": "${trafficInfo.periodoIntegracion}", "longitude": "${coordinates.xCoord}", "latitude": "${coordinates.yCoord}"}"""
   }
+
 }
 
 object LocationsMapper extends LazyLogging {

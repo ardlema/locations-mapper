@@ -37,8 +37,8 @@ class LocationsFileWriterSpec extends FunSpec with BeforeAndAfterAll {
       val coord2y = "111,99"
       val coordinates1 = Coordinates(coord1x, coord1y)
       val coordinates2 = Coordinates(coord2x, coord2y)
-      val trafficInfo1 = TrafficInfo("PM20152", "2013-07-12 07:15:00", "1065", "9", "48", "M", "73", "N", "4", "5")
-      val trafficInfo2 = TrafficInfo("PM22901", "2013-07-12 07:15:00", "912", "7", "18", "M", "58", "N", "5", "3")
+      val trafficInfo1 = TrafficInfo("1", "2013-07-12 07:15:00", "1065", "9", "48", "M", "73", "N", "4", "5")
+      val trafficInfo2 = TrafficInfo("2", "2013-07-12 07:15:00", "912", "7", "18", "M", "58", "N", "5", "3")
       val trafficInfoPlusCoordinates1 = TrafficInfoPlusCoordinates(trafficInfo1, coordinates1)
       val trafficInfoPlusCoordinates2 = TrafficInfoPlusCoordinates(trafficInfo2, coordinates2)
 
@@ -47,10 +47,10 @@ class LocationsFileWriterSpec extends FunSpec with BeforeAndAfterAll {
       val src = io.Source.fromFile(fileWritten)
       val lines = src.getLines.toList
       lines.size should be(2)
-      val firstLine = lines(0)
-      val secondLine = lines(1)
-      firstLine should be(s"""{"identif":"PM20152","fecha":{$$date: "2013-07-12T07:15:00Z"}, "intensidad": 1065, "ocupacion": 9, "carga": 48, "tipo": "M", "vmed": 73, "error": "N", "longitude": 678,89, "latitude": 458,89}""".stripMargin)
-      secondLine should be(s"""{"identif":"PM22901","fecha":{$$date: "2013-07-12T07:15:00Z"}, "intensidad": 912, "ocupacion": 7, "carga": 18, "tipo": "M", "vmed": 58, "error": "N", "longitude": 123,45, "latitude": 111,99}""".stripMargin)
+
+      lines should contain theSameElementsAs (Seq(
+        s"""{"idelem":"1","fecha":"2013-07-12 07:15:00", "identif": "1065", "tipoElem": "9", "intensidad": "48", "ocupacion": "M", "carga": "73", "vmed": "N", "error": "4", "periodoIntegracion": "5", "longitude": "${coord1x}", "latitude": "${coord1y}"}""",
+        s"""{"idelem":"2","fecha":"2013-07-12 07:15:00", "identif": "912", "tipoElem": "7", "intensidad": "18", "ocupacion": "M", "carga": "58", "vmed": "N", "error": "5", "periodoIntegracion": "3", "longitude": "${coord2x}", "latitude": "${coord2y}"}"""))
     }
   }
 }
