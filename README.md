@@ -22,21 +22,21 @@ sbt "run {measurement-points-coordinates-location} {data-density-files-directory
 
 > **Where:**
 
-> - measurement-points-coordinates-location is the absolute path of the file containing the coordinates (latitude and longitude) of the measurement points (see below an example)
+> - measurement-points-coordinates-location is the absolute path of the file containing the coordinates (UTM) of the measurement points (see below an example)
 > - data-density-files-directory is the directory containing the files to be mapped (see below an example of such files)
 > - data-density-files-directory-output is the output directory where you want the transformed files will be generated (see below and example of such files)
 
 #### <i class="icon-file"></i> Measurement points location  file example
 
-50035;-3.72469240;40.38560410
-50036;-3.71542246;40.39293275
-48092;-3.72974872;40.40839438
+"cod_cent";"nombre";"tipo_elem";"st_x";"st_y"
+"03FL08PM01";"03FL08PM01";"PUNTOS MEDIDA M-30";439474.372756695;4474094.8493885
+"03FL08PM02";"03FL08PM02";"PUNTOS MEDIDA M-30";438850.92988411;4474529.21911231
 
 #### <i class="icon-file"></i> Data density file example
 
-"PM20152";"2013-07-12 07:15:00";1065;9;48;"M";73;"N";4
-"PM22901";"2013-07-12 07:15:00";912;7;18;"M";58;"N";5
-"PM22971";"2013-07-12 07:15:00";1008;6;19;"M";64;"N";5
+"idelem";"fecha";"identif";"tipo_elem";"intensidad";"ocupacion";"carga";"vmed";"error";"periodo_integracion"
+1001;"2017-06-01 00:00:00";"05FT10PM01";"PUNTOS MEDIDA M-30";576;4;0;73;"N";5
+1002;"2017-06-01 00:00:00";"05FT37PM01";"PUNTOS MEDIDA M-30";888;4;0;70;"N";5
 
 #### <i class="icon-file"></i> Data density output file example
 
