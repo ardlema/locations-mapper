@@ -53,7 +53,7 @@ object LocationsFileReader extends LazyLogging {
 
   def findCoordinates(coordinatesFile: String): Map[String, UtmCoordinates] = {
     logger.debug("Let's find the coordinates....")
-    val coordinateFile = io.Source.fromFile(coordinatesFile)
+    val coordinateFile = io.Source.fromFile(coordinatesFile, "iso-8859-1")
     val coordinates = for (line <- getLinesWithoutHeader(coordinateFile);
                            elements = replaceQuotesAndSplitByColon(line)) yield (elements(0),
       UtmCoordinates(elements(3).toDouble, elements(4).toDouble))
