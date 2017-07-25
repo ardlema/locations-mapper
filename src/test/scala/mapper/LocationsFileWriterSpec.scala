@@ -47,11 +47,11 @@ class LocationsFileWriterSpec extends FunSpec with BeforeAndAfterAll {
       LocationsFileWriter.writeToFile(fileName, pointsAndCoordinatesList)
       val src = io.Source.fromFile(fileWritten)
       val lines = src.getLines.toList
-      lines.size should be(2)
+      lines.size should be(3)
 
-      lines should contain theSameElementsAs (Seq(
-        s"""{"idelem":"1","fecha":"2013-07-12 07:15:00", "identif": "1065", "tipoElem": "9", "intensidad": "48", "ocupacion": "M", "carga": "73", "vmed": "N", "error": "4", "periodoIntegracion": "5", "longitude": "${longitude1}", "latitude": "${latitude1}"}""",
-        s"""{"idelem":"2","fecha":"2013-07-12 07:15:00", "identif": "912", "tipoElem": "7", "intensidad": "18", "ocupacion": "M", "carga": "58", "vmed": "N", "error": "5", "periodoIntegracion": "3", "longitude": "${longitude2}", "latitude": "${latitude2}"}"""))
+      lines should contain theSameElementsAs (Seq((""""idelem";"fecha";"identif";"tipo_elem";"intensidad";"ocupacion";"carga";"vmed";"error";"periodo_integracion";"longitude";"latitude"""")
+      , ("""1;"2013-07-12 07:15:00";"1065";"9";48;M;73;N;"4";5;-3.7086864657449015;40.416215""")
+      ,("""2;"2013-07-12 07:15:00";"912";"7";18;M;58;N;"5";3;-3.713403079672105;40.415276""")))
     }
   }
 }

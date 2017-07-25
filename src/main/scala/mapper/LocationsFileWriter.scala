@@ -23,6 +23,7 @@ object LocationsFileWriter {
   def writeToFile(fileName: String, infoToBeWritten: Iterator[TrafficInfoPlusCoordinates]): Unit = {
     val writer = new PrintWriter(new File(fileName))
 
+    writer.write(s"${TrafficInfoPlusCoordinates.printHeader()}\n")
     for (info <- infoToBeWritten) writer.write(s"${info.toString}\n")
     writer.close()
   }

@@ -45,10 +45,21 @@ case class TrafficInfo(idelem: String,
 }*/
 
 case class TrafficInfoPlusCoordinates(trafficInfo: TrafficInfo, coordinates: DegreeCoordinates) {
-  override def toString(): String = {
-    s"""{"idelem":"${trafficInfo.idelem}","fecha":"${trafficInfo.fecha}", "identif": "${trafficInfo.identif}", "tipoElem": "${trafficInfo.tipoElem}", "intensidad": "${trafficInfo.intensidad}", "ocupacion": "${trafficInfo.ocupacion}", "carga": "${trafficInfo.carga}", "vmed": "${trafficInfo.vmed}", "error": "${trafficInfo.error}", "periodoIntegracion": "${trafficInfo.periodoIntegracion}", "longitude": "${coordinates.longitude}", "latitude": "${coordinates.latitude}"}"""
-  }
 
+
+
+  override def toString(): String = {
+    s"""${trafficInfo.idelem};"${trafficInfo.fecha}";"${trafficInfo.identif}";"${trafficInfo.tipoElem}";${trafficInfo.intensidad};${trafficInfo.ocupacion};${trafficInfo.carga};${trafficInfo.vmed};"${trafficInfo.error}";${trafficInfo.periodoIntegracion};${coordinates.longitude};${coordinates.latitude}"""
+      .stripMargin
+  }
+}
+
+object TrafficInfoPlusCoordinates {
+
+  //TODO: Find out an "elegant" way to do this (type-classes, inference??)
+  def printHeader(): String = {
+    s""""idelem";"fecha";"identif";"tipo_elem";"intensidad";"ocupacion";"carga";"vmed";"error";"periodo_integracion";"longitude";"latitude""""
+  }
 }
 
 object LocationsMapper extends LazyLogging {
