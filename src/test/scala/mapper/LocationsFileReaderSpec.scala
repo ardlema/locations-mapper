@@ -15,6 +15,7 @@
 // limitations under the License.
 package mapper
 
+import common.UtmCoordinates
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
 
@@ -45,12 +46,12 @@ class LocationsFileReaderSpec extends FunSpec {
     val coordinatesFile = "./src/test/resources/pointsidandcoordinates.txt"
     val id1 = "03FL08PM01"
     val id2 = "03FL08PM02"
-    val xCoord1 = "439474.372756695"
-    val yCoord1 = "4474094.8493885"
-    val xCoord2 = "438850.92988411"
-    val yCoord2 = "4474529.21911231"
-    val coordinates1 = Coordinates(xCoord1, yCoord1)
-    val coordinates2 = Coordinates(xCoord2, yCoord2)
+    val xCoord1 = 439474.372756695
+    val yCoord1 = 4474094.8493885
+    val xCoord2 = 438850.92988411
+    val yCoord2 = 4474529.21911231
+    val coordinates1 = UtmCoordinates(xCoord1, yCoord1)
+    val coordinates2 = UtmCoordinates(xCoord2, yCoord2)
     val expectedMapCoordinates = Map((id1, coordinates1), (id2, coordinates2))
     val mapCoordinates = LocationsFileReader.findCoordinates(coordinatesFile)
 

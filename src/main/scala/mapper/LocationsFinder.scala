@@ -26,7 +26,7 @@ object LocationsFinder extends LazyLogging {
     logger.debug("Let's find the coordinates for each file...")
     for (pointForFile <- pointsForFiles) {
       logger.debug(s"Let's find the coordinates for the file: ${pointForFile._1}")
-      val locationsInfo = LocationsMapper.findCoordinates(pointForFile._2, idsAndCoordinatesMap)
+      val locationsInfo = LocationsMapper.getLongitudeAndLatitudeCoordinates(pointForFile._2, idsAndCoordinatesMap)
       LocationsFileWriter.writeToFile(args(2) + s"/${pointForFile._1}-output.csv", locationsInfo)
     }
   }

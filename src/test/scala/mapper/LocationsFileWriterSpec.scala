@@ -17,6 +17,7 @@ package mapper
 
 import java.io.File
 
+import common.DegreeCoordinates
 import org.scalatest.{BeforeAndAfterAll, FunSpec}
 import org.scalatest.Matchers._
 
@@ -31,16 +32,16 @@ class LocationsFileWriterSpec extends FunSpec with BeforeAndAfterAll {
   describe("The locations file writer") {
 
     it("should read a list of locations info and coordinates and write them to a file") {
-      val coord1x = "678,89"
-      val coord1y = "458,89"
-      val coord2x = "123,45"
-      val coord2y = "111,99"
-      val coordinates1 = Coordinates(coord1x, coord1y)
-      val coordinates2 = Coordinates(coord2x, coord2y)
+      val latitude1 = 40.416215
+      val longitude1 = -3.7086864657449015
+      val latitude2 = 40.415276
+      val longitude2 = -3.713403079672105
+      val degreeCoordinates1 = DegreeCoordinates(latitude1, longitude1)
+      val degreeCoordinates2 = DegreeCoordinates(latitude2, longitude2)
       val trafficInfo1 = TrafficInfo("1", "2013-07-12 07:15:00", "1065", "9", "48", "M", "73", "N", "4", "5")
       val trafficInfo2 = TrafficInfo("2", "2013-07-12 07:15:00", "912", "7", "18", "M", "58", "N", "5", "3")
-      val trafficInfoPlusCoordinates1 = TrafficInfoPlusCoordinates(trafficInfo1, coordinates1)
-      val trafficInfoPlusCoordinates2 = TrafficInfoPlusCoordinates(trafficInfo2, coordinates2)
+      val trafficInfoPlusCoordinates1 = TrafficInfoPlusCoordinates(trafficInfo1, degreeCoordinates1)
+      val trafficInfoPlusCoordinates2 = TrafficInfoPlusCoordinates(trafficInfo2, degreeCoordinates2)
 
       val pointsAndCoordinatesList = Iterator(trafficInfoPlusCoordinates1, trafficInfoPlusCoordinates2)
       LocationsFileWriter.writeToFile(fileName, pointsAndCoordinatesList)
@@ -49,8 +50,8 @@ class LocationsFileWriterSpec extends FunSpec with BeforeAndAfterAll {
       lines.size should be(2)
 
       lines should contain theSameElementsAs (Seq(
-        s"""{"idelem":"1","fecha":"2013-07-12 07:15:00", "identif": "1065", "tipoElem": "9", "intensidad": "48", "ocupacion": "M", "carga": "73", "vmed": "N", "error": "4", "periodoIntegracion": "5", "longitude": "${coord1x}", "latitude": "${coord1y}"}""",
-        s"""{"idelem":"2","fecha":"2013-07-12 07:15:00", "identif": "912", "tipoElem": "7", "intensidad": "18", "ocupacion": "M", "carga": "58", "vmed": "N", "error": "5", "periodoIntegracion": "3", "longitude": "${coord2x}", "latitude": "${coord2y}"}"""))
+        s"""{"idelem":"1","fecha":"2013-07-12 07:15:00", "identif": "1065", "tipoElem": "9", "intensidad": "48", "ocupacion": "M", "carga": "73", "vmed": "N", "error": "4", "periodoIntegracion": "5", "longitude": "${longitude1}", "latitude": "${latitude1}"}""",
+        s"""{"idelem":"2","fecha":"2013-07-12 07:15:00", "identif": "912", "tipoElem": "7", "intensidad": "18", "ocupacion": "M", "carga": "58", "vmed": "N", "error": "5", "periodoIntegracion": "3", "longitude": "${longitude2}", "latitude": "${latitude2}"}"""))
     }
   }
 }

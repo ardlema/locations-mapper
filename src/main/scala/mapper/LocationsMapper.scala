@@ -16,6 +16,8 @@
 package mapper
 
 import com.typesafe.scalalogging.slf4j.LazyLogging
+import common.{DegreeCoordinates, UtmCoordinates}
+import converter.UTMToLatitudeLongitudeConverter
 
 case class TrafficInfo(idelem: String,
   fecha: String,
@@ -35,27 +37,28 @@ case class TrafficInfo(idelem: String,
   def mongoDate(): String = fecha.replace(" ","T") + "Z"
 }
 
-case class Coordinates(xCoord: String, yCoord: String) {
+/*case class Coordinates(xCoord: String, yCoord: String) {
 
   override def toString(): String = {
     s"$xCoord;$yCoord"
   }
-}
+}*/
 
-case class TrafficInfoPlusCoordinates(trafficInfo: TrafficInfo, coordinates: Coordinates) {
+case class TrafficInfoPlusCoordinates(trafficInfo: TrafficInfo, coordinates: DegreeCoordinates) {
   override def toString(): String = {
-    s"""{"idelem":"${trafficInfo.idelem}","fecha":"${trafficInfo.fecha}", "identif": "${trafficInfo.identif}", "tipoElem": "${trafficInfo.tipoElem}", "intensidad": "${trafficInfo.intensidad}", "ocupacion": "${trafficInfo.ocupacion}", "carga": "${trafficInfo.carga}", "vmed": "${trafficInfo.vmed}", "error": "${trafficInfo.error}", "periodoIntegracion": "${trafficInfo.periodoIntegracion}", "longitude": "${coordinates.xCoord}", "latitude": "${coordinates.yCoord}"}"""
+    s"""{"idelem":"${trafficInfo.idelem}","fecha":"${trafficInfo.fecha}", "identif": "${trafficInfo.identif}", "tipoElem": "${trafficInfo.tipoElem}", "intensidad": "${trafficInfo.intensidad}", "ocupacion": "${trafficInfo.ocupacion}", "carga": "${trafficInfo.carga}", "vmed": "${trafficInfo.vmed}", "error": "${trafficInfo.error}", "periodoIntegracion": "${trafficInfo.periodoIntegracion}", "longitude": "${coordinates.longitude}", "latitude": "${coordinates.latitude}"}"""
   }
 
 }
 
 object LocationsMapper extends LazyLogging {
 
-  def findCoordinates(trafficInfos: Iterator[TrafficInfo],
-                      coordinatesMap: Map[String, Coordinates]): Iterator[TrafficInfoPlusCoordinates] = {
+  def getLongitudeAndLatitudeCoordinates(trafficInfos: Iterator[TrafficInfo],
+                                         coordinatesMap: Map[String, UtmCoordinates]): Iterator[TrafficInfoPlusCoordinates] = {
 
     for  { trafficInfo <- trafficInfos
                        coordinate = coordinatesMap.get(trafficInfo.identif)
-                       if (coordinate.isDefined) } yield TrafficInfoPlusCoordinates(trafficInfo, coordinate.get)
+                       if (coordinate.isDefined) } yield TrafficInfoPlusCoordinates(trafficInfo,
+                                              UTMToLatitudeLongitudeConverter.utm2LatitudeLongitude(coordinate.get))
   }
 }

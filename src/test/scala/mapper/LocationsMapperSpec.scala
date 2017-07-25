@@ -15,6 +15,7 @@
 // limitations under the License.
 package mapper
 
+import common.{DegreeCoordinates, UtmCoordinates}
 import org.scalatest.FunSpec
 import org.scalatest.Matchers._
 
@@ -22,33 +23,29 @@ class LocationsMapperSpec extends FunSpec {
 
   describe("The locations mapper") {
 
-/*    it("should transform the date to the mongo format") {
-      val date = "2013-07-12 07:15:00"
-      val id1 = "id1"
-      val trafficInfo1 = TrafficInfo(id1,date,"1065","9","48","M","73","N","4")
-      val expectedDate = "2013-07-12T07:15:00Z"
-      val transformedDate = trafficInfo1.mongoDate()
-
-      transformedDate should equal(expectedDate)
-    }*/
-
-    it("should find out the coordinates for existing ids") {
+    it("should find out the degree coordinates for existing ids") {
       val id1 = "PM20152"
       val id2 = "PM20153"
-      val xCoord1 = "1234,45"
-      val xCoord2 = "6874,89"
-      val yCoord1 = "6789,45"
-      val yCoord2 = "4542,01"
-      val coordinates1 = Coordinates(xCoord1, yCoord1)
-      val coordinates2 = Coordinates(xCoord2, yCoord2)
+      val easting1 = 439474.372756695
+      val northing1 = 4474094.8493885
+      val easting2 = 439875.372756695
+      val northing2 = 4474195.8493885
+      val coordinates1 = UtmCoordinates(easting1, northing1)
+      val coordinates2 = UtmCoordinates(easting2, northing2)
       val coordinatesMap = Map((id1, coordinates1), (id2, coordinates2))
       val trafficInfo1 = TrafficInfo("1","2013-07-12 07:15:00", id1, "9", "48", "M", "73", "N", "4", "5")
       val trafficInfo2 = trafficInfo1.copy(identif = id2)
       val pointsInfo = Iterator(trafficInfo1, trafficInfo2)
-      val trafficInfoPlusCoordinates1 = TrafficInfoPlusCoordinates(trafficInfo1, coordinates1)
-      val trafficInfoPlusCoordinates2 = TrafficInfoPlusCoordinates(trafficInfo2, coordinates2)
+      val latitude1 = 40.41527701272302
+      val longitude1 = -3.7134030732037786
+      val latitude2 = 40.41621593316199
+      val longitude2 = -3.708686459322763
+      val degreeCoordinates1 = DegreeCoordinates(latitude1, longitude1)
+      val degreeCoordinates2 = DegreeCoordinates(latitude2, longitude2)
+      val trafficInfoPlusCoordinates1 = TrafficInfoPlusCoordinates(trafficInfo1, degreeCoordinates1)
+      val trafficInfoPlusCoordinates2 = TrafficInfoPlusCoordinates(trafficInfo2, degreeCoordinates2)
       val expectedOutput = List(trafficInfoPlusCoordinates1, trafficInfoPlusCoordinates2)
-      val coordinates = LocationsMapper.findCoordinates(pointsInfo, coordinatesMap).toList
+      val coordinates = LocationsMapper.getLongitudeAndLatitudeCoordinates(pointsInfo, coordinatesMap).toList
 
       coordinates.size should be(2)
       coordinates should contain theSameElementsAs(expectedOutput)
@@ -58,19 +55,25 @@ class LocationsMapperSpec extends FunSpec {
       val id1 = "id1"
       val id2 = "id2"
       val nonExistingId = "nonExistingId"
-      val xCoord1 = "1234,45"
-      val xCoord2 = "6874,89"
-      val yCoord1 = "6789,45"
-      val yCoord2 = "4542,01"
-      val coordinates1 = Coordinates(xCoord1, yCoord1)
-      val coordinates2 = Coordinates(xCoord2, yCoord2)
-      val coordinatesMap: Map[String, Coordinates] = Map((id1, coordinates1), (id2, coordinates2))
+      val easting1 = 439474.372756695
+      val northing1 = 4474094.8493885
+      val easting2 = 439875.372756695
+      val northing2 = 4474195.8493885
+      val coordinates1 = UtmCoordinates(easting1, northing1)
+      val coordinates2 = UtmCoordinates(easting2, northing2)
+      val coordinatesMap = Map((id1, coordinates1), (id2, coordinates2))
       val trafficInfo1 = TrafficInfo("1", "2013-07-12 07:15:00", id1, "9"," 48", "M", "73", "N", "4", "5")
       val trafficInfo2 = trafficInfo1.copy(identif = nonExistingId)
       val pointsInfo = Iterator(trafficInfo1, trafficInfo2)
-      val trafficInfoPlusCoordinates1 = TrafficInfoPlusCoordinates(trafficInfo1, coordinates1)
+      val latitude1 = 40.41527701272302
+      val longitude1 = -3.7134030732037786
+      val latitude2 = 40.415276
+      val longitude2 = -3.713403079672105
+      val degreeCoordinates1 = DegreeCoordinates(latitude1, longitude1)
+      val degreeCoordinates2 = DegreeCoordinates(latitude2, longitude2)
+      val trafficInfoPlusCoordinates1 = TrafficInfoPlusCoordinates(trafficInfo1, degreeCoordinates1)
       val expectedCoordinates = List(trafficInfoPlusCoordinates1)
-      val coordinates = LocationsMapper.findCoordinates(pointsInfo, coordinatesMap).toList
+      val coordinates = LocationsMapper.getLongitudeAndLatitudeCoordinates(pointsInfo, coordinatesMap).toList
 
       coordinates.size should be(1)
       coordinates should contain theSameElementsAs(expectedCoordinates)

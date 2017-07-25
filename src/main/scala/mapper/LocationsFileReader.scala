@@ -18,6 +18,7 @@ package mapper
 import java.io.File
 
 import com.typesafe.scalalogging.slf4j.LazyLogging
+import common.UtmCoordinates
 
 import scala.io.BufferedSource
 
@@ -50,11 +51,12 @@ object LocationsFileReader extends LazyLogging {
         elements(9)))
   }
 
-  def findCoordinates(coordinatesFile: String): Map[String, Coordinates] = {
+  def findCoordinates(coordinatesFile: String): Map[String, UtmCoordinates] = {
     logger.debug("Let's find the coordinates....")
     val coordinateFile = io.Source.fromFile(coordinatesFile)
     val coordinates = for (line <- getLinesWithoutHeader(coordinateFile);
-                           elements = replaceQuotesAndSplitByColon(line)) yield (elements(0), Coordinates(elements(3), elements(4)))
+                           elements = replaceQuotesAndSplitByColon(line)) yield (elements(0),
+      UtmCoordinates(elements(3).toDouble, elements(4).toDouble))
     val coordinatesMap = coordinates.toMap
     logger.debug("Number of coordinates found: "+coordinatesMap.size)
     coordinatesMap
