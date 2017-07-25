@@ -45,8 +45,8 @@ class LocationsFileReaderSpec extends FunSpec {
     val coordinatesFile = "./src/test/resources/pointsidandcoordinates.txt"
     val id1 = "03FL08PM01"
     val id2 = "03FL08PM02"
-    val xCoord1 = "438854.04677695"
-    val yCoord1 = "4474575.49511342"
+    val xCoord1 = "439474.372756695"
+    val yCoord1 = "4474094.8493885"
     val xCoord2 = "438850.92988411"
     val yCoord2 = "4474529.21911231"
     val coordinates1 = Coordinates(xCoord1, yCoord1)
