@@ -5,7 +5,7 @@ Madrid City Council trafic data mapper. This will transform the Madrid City Coun
 
 Data
 -------------
-Madrid City Council has published data about traffic density over the last years. The files containing the measurements do not have the coordinates of the measurement points, they have the ID of the measurement point instead. This project aims to map this measurement point with the file which contains the coordinates in order to visualize this data using [Stratio Viewer](https://stratio.atlassian.net/wiki/display/PLATFORM/STRATIO+VIEWER)
+Madrid City Council has published data about traffic density over the last years. The files containing the measurements do not have the coordinates of the measurement points, they have the ID of the measurement point instead. This project aims to map this measurement point with the file which contains the coordinates in order to visualize this data.
 
 Data files and measurement points location can be found in the Madrid City Council web page:
 
@@ -14,7 +14,7 @@ Data files and measurement points location can be found in the Madrid City Counc
 Running the project
 ------------------------
 
-To run the project and transform the data to be visualize by [Stratio Viewer](https://stratio.atlassian.net/wiki/display/PLATFORM/STRATIO+VIEWER) just clone the project and execute the following command:
+To run the project please clone the project and execute the following command:
 
 ```
 sbt "run {measurement-points-coordinates-location} {data-density-files-directory} {data-density-directory-output}"
